@@ -21,6 +21,11 @@
 
 #include "safeguards.h"
 
+#if (defined _MSC_VER) && (_MSC_VER < 1950) 
+#define CONSTEXPR_IF_SUPPORTED const
+#else
+#define CONSTEXPR_IF_SUPPORTED constexpr
+#endif
 
 /** these are the maximums used for updating signal blocks */
 static const uint SIG_TBU_SIZE    =  64; ///< number of signals entering to block
@@ -39,7 +44,7 @@ static constexpr DiagDirectionIndexArray<TrackBits> _enterdir_to_trackbits{
 };
 
 /** Accessible TrackdirBits from a given enter direction. */
-static constexpr DiagDirectionIndexArray<TrackdirBits> _enterdir_to_trackdirbits{{{
+static CONSTEXPR_IF_SUPPORTED DiagDirectionIndexArray<TrackdirBits> _enterdir_to_trackdirbits{{{
 	{Trackdir::X_SW, Trackdir::Upper_W, Trackdir::Right_S},
 	{Trackdir::Y_NW, Trackdir::Lower_W, Trackdir::Right_N},
 	{Trackdir::X_NE, Trackdir::Lower_E, Trackdir::Left_N},
